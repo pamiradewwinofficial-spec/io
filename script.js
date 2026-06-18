@@ -126,4 +126,15 @@ window.addEventListener('load', function() {
         }, 500); 
     }
 });
+// Hide the loader as soon as the HTML layout is ready
+document.addEventListener('DOMContentLoaded', function() {
+    const loader = document.querySelector('.loader-wrap');
+    if (loader) {
+        loader.style.transition = "opacity 0.4s ease";
+        loader.style.opacity = "0";
+        setTimeout(() => {
+            loader.style.display = "none";
+        }, 400);
+    }
+});
 
