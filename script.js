@@ -110,3 +110,20 @@ window.addEventListener('load', () => {
     }, 400);
   }, 2000); // Keeps the spinning sequence active for a crisp 2-second experience
 });
+// Wait for the entire window/page to finish loading
+window.addEventListener('load', function() {
+    // Find the loader element on the page
+    const loader = document.querySelector('.loader-wrap');
+    
+    if (loader) {
+        // Add a smooth fade-out effect using CSS transitions
+        loader.style.transition = "opacity 0.5s ease";
+        loader.style.opacity = "0";
+        
+        // Completely remove it from the page layout after it fades out
+        setTimeout(() => {
+            loader.style.display = "none";
+        }, 500); 
+    }
+});
+
