@@ -1,473 +1,469 @@
-/* ============================= */
-/* Custom 3D and Animation Styles */
-/* ============================= */
-.perspective-1000 {
-    perspective: 1000px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.transform-gpu {
-    transform: translateZ(0);
-    backface-visibility: hidden;
+:root {
+  --black: #0a0908;
+  --black-soft: #121110;
+  --char: #1b1816;
+  --ember: #ff5c1a;
+  --ember-bright: #ff8c3d;
+  --ember-pale: #ffb074;
+  --ash: #8a8480;
+  --bone: #f2ede6;
 }
 
-/* Glassmorphism Utilities */
-.glass-panel {
-    background: rgba(23, 23, 23, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 107, 53, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+html {
+  scroll-behavior: smooth;
 }
 
-/* ============================= */
-/* Custom Animations */
-/* ============================= */
-@keyframes float-slow {
-    0%, 100% { transform: translateY(0) rotate(45deg); }
-    50% { transform: translateY(-20px) rotate(50deg); }
+body {
+  background: var(--black);
+  color: var(--bone);
+  font-family: 'Archivo', sans-serif;
+  overflow-x: hidden;
+  position: relative;
 }
 
-@keyframes float-medium {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-30px) rotate(10deg); }
+#embers {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
 }
 
-@keyframes float-fast {
-    0%, 100% { transform: translateY(0) rotate(12deg); }
-    50% { transform: translateY(-15px) rotate(20deg); }
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
 }
 
-@keyframes gradient-shift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* ---------- HERO ---------- */
+
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 3;
+  padding: 36px 6vw 48px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(255, 92, 26, 0.18), transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 140, 61, 0.06), transparent 70%);
+  z-index: -1;
+}
+
+.topnav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 0.12em;
+  color: var(--bone);
+}
+
+.brand-dot {
+  color: var(--ember);
+}
+
+.nav-tag {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--ash);
+  text-transform: uppercase;
+}
+
+.hero-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: auto 0;
+}
+
+.hero-eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ember-pale);
+  margin-bottom: 18px;
+  opacity: 0;
+  animation: fade-up 1s ease forwards 0.2s;
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(56px, 13vw, 148px);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.hero-title .line {
+  display: block;
+  position: relative;
+  color: var(--bone);
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fade-up 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-title .line:nth-child(1) { animation-delay: 0.4s; }
+.hero-title .line:nth-child(2) { animation-delay: 0.6s; }
+
+.hero-title .accent {
+  color: var(--ember);
+  text-shadow:
+    0 0 18px rgba(255, 92, 26, 0.55),
+    0 0 48px rgba(255, 92, 26, 0.25);
+  animation: fade-up 1s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.6s, flicker 4.5s ease-in-out infinite 1.8s;
+}
+
+.hero-sub {
+  margin-top: 22px;
+  font-size: 16px;
+  color: var(--ash);
+  letter-spacing: 0.01em;
+  opacity: 0;
+  animation: fade-up 1s ease forwards 0.9s;
+}
+
+@keyframes fade-up {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes flicker {
+  0%, 100% { text-shadow: 0 0 18px rgba(255, 92, 26, 0.55), 0 0 48px rgba(255, 92, 26, 0.25); }
+  45% { text-shadow: 0 0 24px rgba(255, 92, 26, 0.75), 0 0 64px rgba(255, 92, 26, 0.35); }
+  55% { text-shadow: 0 0 12px rgba(255, 92, 26, 0.4), 0 0 30px rgba(255, 92, 26, 0.18); }
+}
+
+.scroll-cue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto;
+  opacity: 0;
+  animation: fade-up 1s ease forwards 1.3s;
+}
+
+.scroll-cue span {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ash);
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: rgba(242, 237, 230, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-dot {
+  position: absolute;
+  top: -10px;
+  left: -1.5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 8px var(--ember);
+  animation: drop 1.8s ease-in-out infinite;
+}
+
+@keyframes drop {
+  0% { top: -10px; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { top: 40px; opacity: 0; }
+}
+
+/* ---------- MARQUEE STRIP ---------- */
+
+.strip {
+  position: relative;
+  z-index: 3;
+  border-top: 1px solid rgba(242, 237, 230, 0.08);
+  border-bottom: 1px solid rgba(242, 237, 230, 0.08);
+  background: var(--black-soft);
+  overflow: hidden;
+  padding: 16px 0;
+}
+
+.strip-track {
+  display: flex;
+  gap: 48px;
+  white-space: nowrap;
+  width: max-content;
+  animation: scroll-left 22s linear infinite;
+}
+
+.strip-track span {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  color: var(--ash);
+}
+
+.strip-track span:nth-child(4n+1) { color: var(--ember-bright); }
+
+@keyframes scroll-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ---------- GALLERY ---------- */
+
+.gallery {
+  position: relative;
+  z-index: 3;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 120px 6vw 100px;
+}
+
+.gallery-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 56px;
+}
+
+.kicker {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: var(--ember);
+  text-transform: uppercase;
+}
+
+.gallery-head h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 5vw, 52px);
+  letter-spacing: 0.01em;
+  color: var(--bone);
+  text-transform: uppercase;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 6px;
+  background: linear-gradient(155deg, var(--char), var(--black-soft));
+  border: 1px solid rgba(242, 237, 230, 0.08);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s ease;
+}
+
+.frame:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 140, 61, 0.4);
+}
+
+.frame-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 100%, hsla(var(--hue), 100%, 55%, 0.35), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.frame:hover .frame-glow {
+  opacity: 1;
+}
+
+.frame-body {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 18px;
+}
+
+.frame-num {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: rgba(242, 237, 230, 0.35);
+}
+
+.frame-label {
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--ash);
+  text-transform: uppercase;
+  transform: translateY(8px);
+  opacity: 0.7;
+  transition: transform 0.4s ease, opacity 0.4s ease, color 0.4s ease;
+}
+
+.frame:hover .frame-label {
+  transform: translateY(0);
+  opacity: 1;
+  color: var(--ember-pale);
+}
+
+/* ---------- CLOSING ---------- */
+
+.closing {
+  position: relative;
+  z-index: 3;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 6vw 100px;
+  overflow: hidden;
+}
+
+.closing-glow {
+  position: absolute;
+  bottom: -20%;
+  left: 50%;
+  width: 140%;
+  height: 70%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse 50% 50% at 50% 100%, rgba(255, 92, 26, 0.28), transparent 70%);
+  animation: pulse-glow 5s ease-in-out infinite;
+  pointer-events: none;
 }
 
 @keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.4); }
-    50% { box-shadow: 0 0 40px rgba(255, 107, 53, 0.8); }
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
 }
 
-.animate-float-slow {
-    animation: float-slow 6s ease-in-out infinite;
+.closing-eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ash);
+  margin-bottom: 22px;
 }
 
-.animate-float-medium {
-    animation: float-medium 4s ease-in-out infinite;
+.closing-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(36px, 7vw, 84px);
+  line-height: 1.02;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--bone);
+  max-width: 900px;
 }
 
-.animate-float-fast {
-    animation: float-fast 3s ease-in-out infinite;
+.closing-title::after {
+  content: '';
 }
 
-/* ============================= */
-/* Scroll Reveal Animation */
-/* ============================= */
-.reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+.closing-sub {
+  margin-top: 22px;
+  font-size: 15px;
+  color: var(--ember-pale);
+  letter-spacing: 0.04em;
 }
 
-.reveal-on-scroll.revealed {
-    opacity: 1;
-    transform: translateY(0);
+/* scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ============================= */
-/* 3D Tilt Card Effect */
-/* ============================= */
-.tilt-card {
-    transform-style: preserve-3d;
-    transition: transform 0.1s ease-out;
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.tilt-card .tilt-content {
-    transform: translateZ(20px);
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-/* ============================= */
-/* Profile Circle Glow */
-/* ============================= */
-.profile-circle {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    padding: 5px;
-    background: linear-gradient(135deg, #ff7a18, #ffb347);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    animation: glow 3s infinite alternate;
-    box-shadow: 0 0 25px rgba(255, 122, 24, 0.6);
-}
-.profile-pic {
-  width: 150px; /* Adjust size to match your design */
-  height: 150px;
-  border-radius: 50%; /* This makes it a circle */
-  object-fit: cover; /* Prevents the photo from stretching */
-  border: 2px solid #FF8C00; /* Optional: adds that orange glow/border */
+@media (max-width: 560px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .hero {
+    padding: 28px 6vw 36px;
+  }
 }
 
-.profile-circle img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    background-color: #111;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
-.circle-container {
-    width: 150px; /* Or whatever size your circle is */
-    height: 150px;
-    border: 2px solid #ff8c00; /* This creates the orange ring */
-    border-radius: 50%;
-    overflow: hidden; /* This crops the photo into a circle */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.profile-photo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* This stops the photo from stretching */
+/* 1. Prepare the frame container to hold the absolute-positioned image */
+.frame-body {
+  position: relative;
+  overflow: hidden; /* Keeps the image corners from popping out of rounded edges */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Keeps your numbers at top and labels at bottom */
+  height: 100%;
+  width: 100%;
+  z-index: 1; /* Creates a layering context inside the card */
 }
 
-@keyframes glow {
-    from { box-shadow: 0 0 15px rgba(255, 122, 24, 0.4); }
-    to { box-shadow: 0 0 35px rgba(255, 122, 24, 0.9); }
+/* 2. Style the new image element to fill the card background */
+.frame-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Crops and scales the image beautifully without stretching it */
+  object-position: center; /* Centers the focus of your photo */
+  z-index: -1; /* Pushes the image BEHIND your text numbers and labels */
+  transition: transform 0.5s ease; /* Adds a smooth transition layer if you want hover effects */
 }
 
-/* ============================= */
-/* Custom Scrollbar */
-/* ============================= */
-::-webkit-scrollbar {
-    width: 10px;
-}
-
-::-webkit-scrollbar-track {
-    background: #0a0a0a;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #FF6B35;
-    border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #FF4500;
-}
-
-/* ============================= */
-/* Selection Color */
-/* ============================= */
-::selection {
-    background: rgba(255, 107, 53, 0.3);
-    color: white;
-}
-
-/* ============================= */
-/* Neon Text Glow */
-/* ============================= */
-.text-glow {
-    text-shadow: 0 0 10px rgba(255, 107, 53, 0.5),
-                 0 0 20px rgba(255, 107, 53, 0.3),
-                 0 0 30px rgba(255, 107, 53, 0.1);
-}
-
-/* ============================= */
-/* Particle Canvas */
-/* ============================= */
-#particles-container {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-.particle {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: rgba(255, 107, 53, 0.5);
-    border-radius: 50%;
-    pointer-events: none;
-    animation: particle-float 20s infinite linear;
-}
-
-@keyframes particle-float {
-    0% {
-        transform: translateY(100vh) translateX(0);
-        opacity: 0;
-    }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% {
-        transform: translateY(-100vh) translateX(100px);
-        opacity: 0;
-    }
-}
-
-/* ============================= */
-/* Lightbox Transitions */
-/* ============================= */
-#lightbox.active {
-    opacity: 1;
-    pointer-events: all;
-}
-
-#lightbox.active img {
-    transform: scale(1);
-}
-
-/* ============================= */
-/* Mobile Menu Animation */
-/* ============================= */
-.mobile-menu-enter {
-    transform: translateX(100%);
-    transition: transform 0.3s ease-out;
-}
-
-.mobile-menu-enter.active {
-    transform: translateX(0);
-}
-
-/* ============================= */
-/* Responsive Typography */
-/* ============================= */
-@media (max-width: 768px) {
-    .font-display {
-        letter-spacing: -0.02em;
-    }
-}
-
-/* ============================= */
-/* Hover Lift Effect */
-.hover-lift {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hover-lift:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2);
-}
-
-/* ============================= */
-/* Grid Pattern Background */
-.grid-pattern {
-    background-image: linear-gradient(rgba(255, 107, 53, 0.05) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(255, 107, 53, 0.05) 1px, transparent 1px);
-    background-size: 50px 50px;
-}
-
-/* ============================= */
-/* Button Shine Effect */
-.btn-shine {
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-shine::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        to right,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.3) 50%,
-        rgba(255, 255, 255, 0) 100%
-    );
-    transform: rotate(30deg) translateX(-100%);
-    transition: transform 0.6s;
-}
-
-.btn-shine:hover::after {
-    transform: rotate(30deg) translateX(100%);
-}
-/* ============================= */
-/* Contact Form Integration      */
-/* ============================= */
-
-.contact-section {
-    padding: 5rem 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-    position: relative;
-}
-
-.form-container {
-    width: 100%;
-    max-width: 600px;
-    padding: 2.5rem;
-    border-radius: 20px;
-    /* .glass-panel already handles the background and blur! */
-}
-
-.form-container h2 {
-    color: white;
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 2.5rem;
-    margin-top: 0;
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-    display: flex;
-    flex-direction: column;
-}
-
-.contact-label {
-    color: #e0e0e0;
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.contact-input {
-    width: 100%;
-    background: rgba(10, 10, 10, 0.6);
-    border: 1px solid rgba(255, 107, 53, 0.2);
-    color: white;
-    padding: 1rem;
-    border-radius: 10px;
-    font-family: inherit;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    outline: none;
-    box-sizing: border-box; /* Prevents overflow on mobile */
-}
-
-/* Inheriting your neon glow logic for the focus state */
-.contact-input:focus {
-    border-color: #FF6B35;
-    box-shadow: 0 0 15px rgba(255, 107, 53, 0.3);
-    background: rgba(10, 10, 10, 0.9);
-}
-
-.contact-input::placeholder {
-    color: rgba(255, 255, 255, 0.3);
-}
-
-.submit-btn {
-    background: linear-gradient(135deg, #ff7a18, #FF6B35);
-    color: white;
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    width: 100%;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-top: 1rem;
-    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
-    transition: all 0.3s ease;
-}
-
-.submit-btn:hover {
-    box-shadow: 0 0 25px rgba(255, 122, 24, 0.8); /* Matches your profile glow */
-}
-
-/* Responsive Tweaks */
-@media (max-width: 768px) {
-    .form-container {
-        padding: 1.5rem;
-    }
-    
-    .form-container h2 {
-        font-size: 2rem;
-    }
-}
-/* Fix for invisible text inside inputs and textareas */
-#contact-form input,
-#contact-form textarea {
-    background-color: #ffffff; /* Keeps the background white */
-    color: #1a1a1a;            /* Makes the typed text a dark gray/black */
-    font-size: 16px;           /* Clean, readable text size */
-    padding: 10px;             /* Gives the text some breathing room */
-    border: 2px solid transparent;
-    transition: border-color 0.3s ease;
-}
-
-/* Optional: Add an orange border highlight when you click inside an input */
-#contact-form input:focus,
-#contact-form textarea:focus {
-    outline: none;
-    border-color: #ff6600; /* Matches your orange theme accent */
-}
-/* Style the Send Message Button */
-#submit-btn {
-    background-color: #ff6600; /* Vibrant orange background */
-    color: #ffffff;            /* Clean white text */
-    font-size: 16px;
-    font-weight: bold;
-    padding: 12px 28px;        /* Adds comfortable padding inside the button */
-    border: none;
-    border-radius: 6px;        /* Smooth rounded corners */
-    cursor: pointer;
-    transition: all 0.3s ease; /* Makes the animation smooth */
-    box-shadow: 0 4px 15px rgba(255, 102, 0, 0.2); /* Subtle orange glow */
-    margin-top: 15px;
-    display: inline-block;
-}
-
-/* Hover effect when your mouse touches the button */
-#submit-btn:hover {
-    background-color: #ff8533; /* Slightly lighter orange on hover */
-    transform: translateY(-2px); /* Moves the button up a tiny bit for a clicky feel */
-    box-shadow: 0 6px 20px rgba(255, 102, 0, 0.4); /* Stronger glow on hover */
-}
-
-/* Active effect when you actually click down on it */
-#submit-btn:active {
-    transform: translateY(0); /* Pushes it back down */
-    box-shadow: 0 4px 10px rgba(255, 102, 0, 0.3);
-}
-/* Style the Send Message Button */
-#submit-btn {
-    background-color: #ff6600; /* Vibrant orange background */
-    color: #ffffff;            /* Clean white text */
-    font-size: 16px;
-    font-weight: bold;
-    padding: 12px 28px;        /* Adds comfortable padding inside the button */
-    border: none;
-    border-radius: 6px;        /* Smooth rounded corners */
-    cursor: pointer;
-    transition: all 0.3s ease; /* Makes the animation smooth */
-    box-shadow: 0 4px 15px rgba(255, 102, 0, 0.2); /* Subtle orange glow */
-    margin-top: 15px;
-    display: inline-block;
-}
-
-/* Hover effect when your mouse touches the button */
-#submit-btn:hover {
-    background-color: #f88233; /* Slightly lighter orange on hover */
-    transform: translateY(-2px); /* Moves the button up a tiny bit for a clicky feel */
-    box-shadow: 0 6px 20px rgba(255, 102, 0, 0.4); /* Stronger glow on hover */
-}
-
-/* Active effect when you actually click down on it */
-#submit-btn:active {
-    transform: translateY(0); /* Pushes it back down */
-    box-shadow: 0 4px 10px rgba(255, 102, 0, 0.3);
-}
-/* Custom smooth hover effect for your profile picture */
-.tilt-card img {
-    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-/* Subtle zoom inside the glowing circle when you hover over the card */
-.group:hover .tilt-card img {
-    transform: scale(1.08); /* Elegantly zooms into your photo slightly */
+/* 3. Optional Hover Effect (Makes the image zoom slightly when hovered) */
+.frame:hover .frame-img {
+  transform: scale(1.05);
 }
 /* ==========================================================================
    THREADS LOADER OVERLAY SYSTEM
